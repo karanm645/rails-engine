@@ -43,4 +43,22 @@ RSpec.describe "item API" do
     expect(item[:data][:attributes]).to have_key(:unit_price)
     expect(item[:data][:attributes][:unit_price]).to be_a(Float)
   end 
+
+  it "can create a new item" do 
+    create_list(:item, 10, merchant: @merchant)
+    post "/api/v1/items", params: {
+                    name: 'new item',
+                    description: 'new description',
+                    unit_price: 5.5,
+                    merchant_id: @merchant.id
+                  }
+  
+    item = JSON.parse(response.body, symbolize_names: true)
+    new_item = Item.find(item[:data][:id])
+    expect(response).to be_successful
+
+    expect(item[:data][:attributes][:name]).to eq(new_item[:name])
+    expect(item[:data][:attributes][:description]).to eq(new_item[:description])
+    expect(item[:data][:attributes][:unit_price]).to eq(new_item[:unit_price])
+  end 
 end 
