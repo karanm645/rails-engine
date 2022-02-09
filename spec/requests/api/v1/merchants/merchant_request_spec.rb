@@ -27,5 +27,10 @@ RSpec.describe "merchant API" do
 
     merchant = JSON.parse(response.body, symbolize_names: true)
     expect(response).to be_successful
+
+    expect(merchant[:data]).to have_key(:id)
+
+    expect(merchant[:data][:attributes]).to have_key(:name)
+    expect(merchant[:data][:attributes][:name]).to be_a(String)
   end 
 end 
