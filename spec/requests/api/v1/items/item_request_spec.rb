@@ -70,4 +70,30 @@ RSpec.describe "item API" do
     expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
 
   end 
+  describe "update item" do 
+    it "can update an existing item" do 
+      id = create(:item, merchant: @merchant).id
+      previous_name = Item.last.name 
+      item_params = { name: 'updated item',
+        description: 'updated description',
+        unit_price: 5,
+        merchant_id: @merchant.id
+      }
+      patch "/api/v1/items/#{id}", params: item_params    
+    
+      item = Item.find_by(id: id)
+
+      expect(response).to be_successful
+      expect(item.name).to_not eq(previous_name)
+      expect(item.name).to eq("updated item")
+    end 
+
+    it "edge case for bad merchant id" do 
+      id = 0
+      get "/api/v1/items/#{id}"
+      body = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response.status).to eq(404)
+    end 
+  end 
 end 
