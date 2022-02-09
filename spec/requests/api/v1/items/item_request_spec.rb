@@ -88,8 +88,9 @@ RSpec.describe "item API" do
       expect(item.name).to eq("updated item")
     end 
 
-    it "edge case for bad merchant id" do 
-      id = 0
+    it "edge case for bad id" do 
+      id = create(:item, merchant: @merchant).id
+      # id = 0
       get "/api/v1/items/#{id}"
       body = JSON.parse(response.body, symbolize_names: true)
       
