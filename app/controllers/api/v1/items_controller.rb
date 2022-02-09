@@ -1,7 +1,5 @@
 class Api::V1::ItemsController < ApplicationController
   def index
-    # binding.pry
-    # render json: Merchant.all 
     item = Item.all
     render json: ItemSerializer.new(item)
   end
@@ -14,6 +12,12 @@ class Api::V1::ItemsController < ApplicationController
     item = Item.new(item_params)
     item.save
     render json: ItemSerializer.new(item), status: 201
+  end 
+
+  def update 
+    item = Item.find(params[:id])
+    item.update(item_params)
+    render json: ItemSerializer.new(item)
   end 
 
   def destroy
