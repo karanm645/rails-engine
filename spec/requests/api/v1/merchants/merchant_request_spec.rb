@@ -35,6 +35,11 @@ RSpec.describe "merchant API" do
   end 
 
   it 'can find one merchant by name' do 
-    
+    merchants = create_list(:merchant, 20)
+    dynamo = create(:merchant, name: "Dynamo")
+    get "/api/v1/merchants/find?name=namo"
+
+    body = JSON.parse(response.body, symbolize_names: true)
+    expect(body[:data].first[:id]).to eq("#{dynamo.id}")
   end 
 end 
