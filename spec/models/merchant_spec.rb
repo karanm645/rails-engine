@@ -10,7 +10,7 @@ RSpec.describe Merchant do
       merchants = create_list(:merchant, 15)
       dynamo = create(:merchant, name: "Dynamo")
 
-      expect(Merchant.find_merchant("namo").first).to eq(dynamo)
+      expect(Merchant.find_merchant("namo")).to eq(dynamo)
     end 
   end 
 end 

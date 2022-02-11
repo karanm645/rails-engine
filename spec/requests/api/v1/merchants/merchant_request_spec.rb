@@ -42,13 +42,24 @@ RSpec.describe "merchant API" do
   end 
 
   describe 'find merchant' do 
-    it 'can find one merchant by name' do 
-      merchants = create_list(:merchant, 20)
-      dynamo = create(:merchant, name: "Dynamo")
-      get "/api/v1/merchants/find?name=namo"
+    describe 'happy path' do 
+      it 'can find one merchant by name' do 
+        merchants = create_list(:merchant, 20)
+        dynamo = create(:merchant, name: "Dynamo")
+        get "/api/v1/merchants/find?name=namo"
 
-      body = JSON.parse(response.body, symbolize_names: true)
-      expect(body[:data][:id]).to eq("#{dynamo.id}")
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:data][:id]).to eq("#{dynamo.id}")
+      end 
+    end 
+
+    describe 'sad path' do 
+      it 'cant find merchant by name' do 
+        get "/api/v1/merchants/find?name=namo"
+        body = JSON.parse(response.body, symbolize_names: true)
+        
+        expect(body[:data][:message]).to eq("Merchant not found")
+      end 
     end 
   end 
 end 

@@ -91,7 +91,6 @@ RSpec.describe "item API" do
   end 
 
   describe 'sad path' do 
-
     it "renders an error message for bad id" do 
       id = 0
       get "/api/v1/items/#{id}"
@@ -102,25 +101,31 @@ RSpec.describe "item API" do
   end 
 
   describe 'find all items' do 
+    before :each do 
+
+    end 
+
     describe 'happy path' do 
       it "find all items based on search criteria" do 
         items = create_list(:item, 10, merchant: @merchant)
         necklace = create(:item, name: "Necklace", merchant: @merchant)
         necktie = create(:item, name: "Neck Tie", merchant: @merchant)
         get "/api/v1/items/find_all?name=neck"
-
         body = JSON.parse(response.body, symbolize_names: true)
+
+        expect(response).to be_successful
+        expect(body[:data].first[:id]).to eq("#{necklace.id}")
+        expect(body[:data][1][:id]).to eq("#{necktie.id}")
       end 
     end 
-  end 
 
-  describe 'sad path' do 
-    it 'cant find a merchant by id' do 
-      id = 0
-      get "/api/v1/merchants/#{id}/items"
-      body = JSON.parse(response.body, symbolize_names: true)
-      
-      expect(response.status).to eq(404)
+    describe 'sad path' do 
+      it 'cant find item by name' do 
+        get "/api/v1/items/find_all?name=shoes"
+        body = JSON.parse(response.body, symbolize_names: true)
+        
+        expect(body[:data]).to eq([])
+      end 
     end 
   end 
 end 
