@@ -62,4 +62,8 @@ RSpec.describe "merchant API" do
       end 
     end 
   end 
+
+  describe 'find quantity of merchants sorted by descending rev' do 
+    
+  end 
 end 

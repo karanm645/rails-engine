@@ -13,4 +13,11 @@ RSpec.describe Merchant do
       expect(Merchant.find_merchant("namo")).to eq(dynamo)
     end 
   end 
+
+  describe '::top_merchants_by_revenue' do 
+    it 'lists merchants by most revenue' do 
+      merchants = create_list(:merchant, 15)
+      
+    end 
+  end 
 end 

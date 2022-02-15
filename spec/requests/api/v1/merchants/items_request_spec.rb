@@ -31,5 +31,9 @@ RSpec.describe 'merchant items exposure' do
       
       expect(response.status).to eq(404)
     end 
+
+    it 'has an error message' do 
+      
+    end 
   end 
 end 

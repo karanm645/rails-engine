@@ -93,7 +93,7 @@ RSpec.describe "item API" do
   describe 'sad path' do 
     it "renders an error message for bad id" do 
       id = 0
-      get "/api/v1/items/#{id}"
+      get "/api/v1/items/#{id}" # put patch 
       body = JSON.parse(response.body, symbolize_names: true)
       
       expect(response.status).to eq(404)
@@ -101,9 +101,6 @@ RSpec.describe "item API" do
   end 
 
   describe 'find all items' do 
-    before :each do 
-
-    end 
 
     describe 'happy path' do 
       it "find all items based on search criteria" do 
