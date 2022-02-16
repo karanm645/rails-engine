@@ -3,7 +3,12 @@ class Api::V1::MerchantsController < ApplicationController
     merchant = Merchant.all
     render json: MerchantSerializer.new(merchant)
   end
-
+  
+  def most_items
+    number = params[:quantity]
+    merchants = Merchant.top_merchant_count(number)
+    render json: ::MerchantMostItemsSerializer.new(merchants)
+  end 
   def show 
     render json: MerchantSerializer.new(Merchant.find(params[:id]))
   end 
@@ -16,4 +21,5 @@ class Api::V1::MerchantsController < ApplicationController
       render json: MerchantSerializer.new(merchant)
     end 
   end 
+
 end 
